@@ -20,10 +20,9 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Atualizando",listTodo)
-    localStorage.setItem("listTodo", JSON.stringify(listTodo));
-  }, [listTodo]);
+  function updatedLocalStorage(updatedList: TodoProps[]) {
+    localStorage.setItem("listTodo", JSON.stringify(updatedList));
+  }
 
   function createTodo() {
     if (!todo.trim()) {
@@ -32,21 +31,24 @@ export default function Home() {
       );
       return;
     }
-    setListTodo([...listTodo, { task: todo, active: false }]);
+    const updatedTodoList = [...listTodo, { task: todo, active: false }];
+    setListTodo(updatedTodoList);
+    updatedLocalStorage(updatedTodoList);
     setTodo("");
   }
 
   function deleteTodo(removeItem: string) {
     const removedTodo = listTodo.filter((todos) => todos.task !== removeItem);
     setListTodo(removedTodo);
+    updatedLocalStorage(removedTodo);
   }
 
   function todoDone(doneTodo: string) {
-    setListTodo(
-      listTodo.map((todos) =>
-        todos.task === doneTodo ? { ...todos, active: true } : todos
-      )
+    const updatedDoneTodo = listTodo.map((todos) =>
+      todos.task === doneTodo ? { ...todos, active: !todos.active } : todos
     );
+    setListTodo(updatedDoneTodo);
+    updatedLocalStorage(updatedDoneTodo);
   }
   function editTodo(todo: string) {
     setEditingTodo(todo);
@@ -58,20 +60,17 @@ export default function Home() {
       alert("Sua tarefa precisa de um nome");
       return;
     }
-
+    const updatedTodo = listTodo.map((todos) =>
+      todos.task === editingTodo ? { ...todos, task: editedTodoValue } : todos
+    );
     if (editingTodo) {
-      setListTodo(
-        listTodo.map((todos) =>
-          todos.task === editingTodo
-            ? { ...todos, task: editedTodoValue }
-            : todos
-        )
-      );
+      setListTodo(updatedTodo);
+      updatedLocalStorage(updatedTodo);
       setEditingTodo(null);
       setEditedTodoValue("");
     }
   }
-console.log(listTodo,"list")
+
   return (
     <>
       <S.GeralContainer>
