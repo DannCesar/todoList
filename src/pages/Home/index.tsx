@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { Button } from "../../components/Button";
 import * as S from "./styles";
+import checkIcon from "../../assets/check.svg";
+import trashIcon from "../../assets/trash.svg";
+import pencilIcon from "../../assets/pencil.svg";
+import floppyDiscIcon from "../../assets/floppyDisk.svg";
 
 interface TodoProps {
   task: string;
@@ -83,7 +87,11 @@ export default function Home() {
               value={todo}
               onChange={(e) => setTodo(e.target.value)}
             />
-            <Button label="Adicionar" onClick={createTodo} />
+            <Button
+              label="Adicionar tarefa"
+              onClick={createTodo}
+              color="#708090"
+            />
           </S.ButtonContainer>
         </S.TodoContainer>
         <S.UlContainer active={listTodo.length !== 0}>
@@ -104,22 +112,34 @@ export default function Home() {
                     <S.TodoButtonContainer>
                       <Button
                         onClick={() => todoDone(todos.task)}
-                        label="Concluido"
+                        icon={checkIcon}
+                        label="Concluído"
+                        color="#2ca05e"
                       />
                       <Button
                         onClick={() => deleteTodo(todos.task)}
+                        icon={trashIcon}
                         label="Deletar"
+                        color="#f85757"
                       />
-                      <Button
-                        onClick={() => editTodo(todos.task)}
-                        label="Editar"
-                      />
-                      {editingTodo && (
-                        <Button label="Salvar" onClick={updateTodo} />
+                      {editingTodo === todos.task ? (
+                        <Button
+                          icon={floppyDiscIcon}
+                          label="Salvar"
+                          onClick={updateTodo}
+                          color="#708090"
+                        />
+                      ) : (
+                        <Button
+                          onClick={() => editTodo(todos.task)}
+                          icon={pencilIcon}
+                          label="Editar"
+                          color="#708090"
+                        />
                       )}
                     </S.TodoButtonContainer>
                   </S.ListContainer>
-                  <hr />
+                  {listTodo.length > 1 && <hr />}
                 </S.GeralListContainer>
               ))}
             </ul>

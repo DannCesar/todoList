@@ -52,22 +52,20 @@ export const UlContainer = styled.ul<UlContainerProps>`
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
-  background-color: ${(props) => (props.active ?  `#8e8e8e`:`none`)};
+  background-color: ${(props) => (props.active ? `#ffff` : `none`)};
   width: 580px;
   border-radius: 4px;
   padding: 8px;
- 
 `;
 
 export const GeralListContainer = styled.div`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-& hr{
-  margin-top: 1%;
-}
-
-`
+  & hr {
+    margin-top: 1%;
+  }
+`;
 
 export const ListContainer = styled.li<ListContainerProps>`
   margin-top: 8px;
